@@ -8,7 +8,7 @@ const output = palabras.map((palabra) => {
 	return silabas.map((it) => {
 		const vocales = it.replace(consonantes, "");
 		const vocal = vocales[vocales.length - 1];
-		return `${it}p${vocal}`;
+		return vocal ? `${it}p${vocal}` : it;
 	}).join("");
 }).join(" ");
 console.log(output);
