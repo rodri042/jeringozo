@@ -1,5 +1,3 @@
-"use strict";
-
 // Objeto con metodo que se utilizará globalmente
 var silabaJS = {
 	getSilabas: getSilabas
@@ -80,7 +78,7 @@ function posicionSilabas(palabra) {
 		// Guarda silaba de la palabra
 		silaba.silabas.push(silabaAux);
 
-		if (encontroTonica && silaba.tonica == 0)
+		if (encontroTonica && silaba.tonica === 0)
 			silaba.tonica = silaba.numeroSilaba; // Marca la silaba tónica
 	}
 
@@ -97,9 +95,9 @@ function posicionSilabas(palabra) {
 
 			if (
 				!esConsonante(letraFinal) ||
-				letraFinal == "y" ||
-				(letraFinal == "n" ||
-					(letraFinal == "s" && !esConsonante(letraAnterior)))
+				letraFinal === "y" ||
+				(letraFinal === "n" ||
+					(letraFinal === "s" && !esConsonante(letraAnterior)))
 			) {
 				silaba.tonica = silaba.numeroSilaba - 1; // Palabra llana
 			} else {
@@ -123,7 +121,7 @@ function ataque(pal, pos) {
 
 	while (
 		pos < silaba.longitudPalabra &&
-		(esConsonante(pal[pos]) && pal[pos] != "y")
+		(esConsonante(pal[pos]) && pal[pos] !== "y")
 	) {
 		ultimaConsonante = pal[pos];
 		pos++;
@@ -131,16 +129,17 @@ function ataque(pal, pos) {
 
 	// (q | g) + u (ejemplo: queso, gueto)
 	if (pos < silaba.longitudPalabra - 1)
-		if (pal[pos] == "u") {
-			if (ultimaConsonante == "q") pos++;
-			else if (ultimaConsonante == "g") {
+		if (pal[pos] === "u") {
+			if (ultimaConsonante === "q") pos++;
+			else if (ultimaConsonante === "g") {
 				var letra = pal[pos + 1];
-				if (letra == "e" || letra == "é" || letra == "i" || letra == "í") pos++;
+				if (letra === "e" || letra === "é" || letra === "i" || letra === "í")
+					pos++;
 			}
 		} else {
 			// La u con diéresis se añade a la consonante
-			if (pal[pos] === "ü" || pal[pos] == "Ü")
-				if (ultimaConsonante == "g") pos++;
+			if (pal[pos] === "ü" || pal[pos] === "Ü")
+				if (ultimaConsonante === "g") pos++;
 		}
 
 	return pos;
@@ -166,7 +165,7 @@ function nucleo(pal, pos) {
 	if (pos >= silaba.longitudPalabra) return pos; // ¡¿No tiene núcleo?!
 
 	// Se salta una 'y' al principio del núcleo, considerándola consonante
-	if (pal[pos] == "y") pos++;
+	if (pal[pos] === "y") pos++;
 
 	// Primera vocal
 	if (pos < silaba.longitudPalabra) {
@@ -216,7 +215,6 @@ function nucleo(pal, pos) {
 				pos++;
 				encontroTonica = true;
 				return pos;
-				break;
 			// Vocal débil
 			case "i":
 			case "I":
@@ -225,13 +223,14 @@ function nucleo(pal, pos) {
 				anterior = 2;
 				pos++;
 				break;
+			default:
 		}
 	}
 
 	// 'h' intercalada en el núcleo, no condiciona diptongos o hiatos
 	var hache = false;
 	if (pos < silaba.longitudPalabra) {
-		if (pal[pos] == "h") {
+		if (pal[pos] === "h") {
 			pos++;
 			hache = true;
 		}
@@ -255,10 +254,10 @@ function nucleo(pal, pos) {
 			case "ò":
 			case "Ò":
 				silaba.letraTildada = pos;
-				if (anterior != 0) {
+				if (anterior !== 0) {
 					encontroTonica = true;
 				}
-				if (anterior == 0) {
+				if (anterior === 0) {
 					// Dos vocales fuertes no forman silaba
 					if (hache) pos--;
 					return pos;
@@ -274,7 +273,7 @@ function nucleo(pal, pos) {
 			case "E":
 			case "o":
 			case "O":
-				if (anterior == 0) {
+				if (anterior === 0) {
 					// Dos vocales fuertes no forman silaba
 					if (hache) pos--;
 					return pos;
@@ -295,15 +294,13 @@ function nucleo(pal, pos) {
 			case "Ù":
 				silaba.letraTildada = pos;
 
-				if (anterior != 0) {
+				if (anterior !== 0) {
 					// Se forma diptongo
 					encontroTonica = true;
 					pos++;
 				} else if (hache) pos--;
 
 				return pos;
-
-				break;
 			// Vocal débil
 			case "i":
 			case "I":
@@ -316,23 +313,24 @@ function nucleo(pal, pos) {
 					var siguiente = pal[pos + 1];
 					if (!esConsonante(siguiente)) {
 						var letraAnterior = pal[pos - 1];
-						if (letraAnterior == "h") pos--;
+						if (letraAnterior === "h") pos--;
 						return pos;
 					}
 				}
 
 				// dos vocales débiles iguales no forman diptongo
-				if (pal[pos] != pal[pos - 1]) pos++;
+				if (pal[pos] !== pal[pos - 1]) pos++;
 
 				// Es un diptongo plano o descendente
 				return pos;
+			default:
 		}
 	}
 
 	// ¿tercera vocal?
 	if (pos < silaba.longitudPalabra) {
 		c = pal[pos];
-		if (c == "i" || c == "u") {
+		if (c === "i" || c === "u") {
 			// Vocal débil
 			pos++;
 			return pos; // Es un triptongo
@@ -354,7 +352,7 @@ function coda(pal, pos) {
 	if (pos >= silaba.longitudPalabra || !esConsonante(pal[pos])) return pos;
 	// No hay coda
 	else {
-		if (pos == silaba.longitudPalabra - 1) {
+		if (pos === silaba.longitudPalabra - 1) {
 			// Final de palabra
 			pos++;
 			return pos;
@@ -374,17 +372,23 @@ function coda(pal, pos) {
 				// No hay tercera consonante
 				// Los grupos ll, lh, ph, ch y rr comienzan silaba
 
-				if (c1 == "l" && c2 == "l") return pos;
-				if (c1 == "c" && c2 == "h") return pos;
-				if (c1 == "r" && c2 == "r") return pos;
+				if (c1 === "l" && c2 === "l") return pos;
+				if (c1 === "c" && c2 === "h") return pos;
+				if (c1 === "r" && c2 === "r") return pos;
 
 				///////// grupos nh, sh, rh, hl son ajenos al español(DPD)
-				if (c1 != "s" && c1 != "r" && c2 == "h") return pos;
+				if (c1 !== "s" && c1 !== "r" && c2 === "h") return pos;
 
 				// Si la y está precedida por s, l, r, n o c (consonantes alveolares),
 				// una nueva silaba empieza en la consonante previa, si no, empieza en la y
-				if (c2 == "y") {
-					if (c1 == "s" || c1 == "l" || c1 == "r" || c1 == "n" || c1 == "c")
+				if (c2 === "y") {
+					if (
+						c1 === "s" ||
+						c1 === "l" ||
+						c1 === "r" ||
+						c1 === "n" ||
+						c1 === "c"
+					)
 						return pos;
 
 					pos++;
@@ -393,15 +397,15 @@ function coda(pal, pos) {
 
 				// gkbvpft + l
 				if (
-					(c1 == "b" ||
-						c1 == "v" ||
-						c1 == "c" ||
-						c1 == "k" ||
-						c1 == "f" ||
-						c1 == "g" ||
-						c1 == "p" ||
-						c1 == "t") &&
-					c2 == "l"
+					(c1 === "b" ||
+						c1 === "v" ||
+						c1 === "c" ||
+						c1 === "k" ||
+						c1 === "f" ||
+						c1 === "g" ||
+						c1 === "p" ||
+						c1 === "t") &&
+					c2 === "l"
 				) {
 					return pos;
 				}
@@ -409,16 +413,16 @@ function coda(pal, pos) {
 				// gkdtbvpf + r
 
 				if (
-					(c1 == "b" ||
-						c1 == "v" ||
-						c1 == "c" ||
-						c1 == "d" ||
-						c1 == "k" ||
-						c1 == "f" ||
-						c1 == "g" ||
-						c1 == "p" ||
-						c1 == "t") &&
-					c2 == "r"
+					(c1 === "b" ||
+						c1 === "v" ||
+						c1 === "c" ||
+						c1 === "d" ||
+						c1 === "k" ||
+						c1 === "f" ||
+						c1 === "g" ||
+						c1 === "p" ||
+						c1 === "t") &&
+					c2 === "r"
 				) {
 					return pos;
 				}
@@ -427,15 +431,21 @@ function coda(pal, pos) {
 				return pos;
 			} else {
 				// Hay tercera consonante
-				if (pos + 3 == silaba.longitudPalabra) {
+				if (pos + 3 === silaba.longitudPalabra) {
 					// Tres consonantes al final ¿palabras extranjeras?
-					if (c2 == "y") {
+					if (c2 === "y") {
 						// 'y' funciona como vocal
-						if (c1 == "s" || c1 == "l" || c1 == "r" || c1 == "n" || c1 == "c")
+						if (
+							c1 === "s" ||
+							c1 === "l" ||
+							c1 === "r" ||
+							c1 === "n" ||
+							c1 === "c"
+						)
 							return pos;
 					}
 
-					if (c3 == "y") {
+					if (c3 === "y") {
 						// 'y' final funciona como vocal con c2
 						pos++;
 					} else {
@@ -445,9 +455,15 @@ function coda(pal, pos) {
 					return pos;
 				}
 
-				if (c2 == "y") {
+				if (c2 === "y") {
 					// 'y' funciona como vocal
-					if (c1 == "s" || c1 == "l" || c1 == "r" || c1 == "n" || c1 == "c")
+					if (
+						c1 === "s" ||
+						c1 === "l" ||
+						c1 === "r" ||
+						c1 === "n" ||
+						c1 === "c"
+					)
 						return pos;
 
 					pos++;
@@ -457,36 +473,36 @@ function coda(pal, pos) {
 				// Los grupos pt, ct, cn, ps, mn, gn, ft, pn, cz, tz, ts comienzan silaba (Bezos)
 
 				if (
-					(c2 == "p" && c3 == "t") ||
-					(c2 == "c" && c3 == "t") ||
-					(c2 == "c" && c3 == "n") ||
-					(c2 == "p" && c3 == "s") ||
-					(c2 == "m" && c3 == "n") ||
-					(c2 == "g" && c3 == "n") ||
-					(c2 == "f" && c3 == "t") ||
-					(c2 == "p" && c3 == "n") ||
-					(c2 == "c" && c3 == "z") ||
-					(c2 == "t" && c3 == "s") ||
-					(c2 == "t" && c3 == "s")
+					(c2 === "p" && c3 === "t") ||
+					(c2 === "c" && c3 === "t") ||
+					(c2 === "c" && c3 === "n") ||
+					(c2 === "p" && c3 === "s") ||
+					(c2 === "m" && c3 === "n") ||
+					(c2 === "g" && c3 === "n") ||
+					(c2 === "f" && c3 === "t") ||
+					(c2 === "p" && c3 === "n") ||
+					(c2 === "c" && c3 === "z") ||
+					(c2 === "t" && c3 === "s") ||
+					(c2 === "t" && c3 === "s")
 				) {
 					pos++;
 					return pos;
 				}
 
 				if (
-					c3 == "l" ||
-					c3 == "r" || // Los grupos consonánticos formados por una consonante
+					c3 === "l" ||
+					c3 === "r" || // Los grupos consonánticos formados por una consonante
 					// seguida de 'l' o 'r' no pueden separarse y siempre inician
 					// sílaba
-					(c2 == "c" && c3 == "h") || // 'ch'
-					c3 == "y"
+					(c2 === "c" && c3 === "h") || // 'ch'
+					c3 === "y"
 				) {
 					// 'y' funciona como vocal
 					pos++; // Siguiente sílaba empieza en c2
 				} else pos += 2; // c3 inicia la siguiente sílaba
 			}
 		} else {
-			if (c2 == "y") return pos;
+			if (c2 === "y") return pos;
 
 			pos += 2; // La palabra acaba con dos consonantes
 		}
@@ -506,8 +522,8 @@ function hiato() {
 	// La 'u' de "qu" no forma hiato
 	if (
 		silaba.letraTildada > 1 &&
-		silaba.palabra[silaba.letraTildada - 1] == "u" &&
-		silaba.palabra[silaba.letraTildada - 2] == "q"
+		silaba.palabra[silaba.letraTildada - 1] === "u" &&
+		silaba.palabra[silaba.letraTildada - 2] === "q"
 	) {
 		silaba.hiato.push({
 			tipoHiato: "Hiato simple",
@@ -680,6 +696,7 @@ function vocalFuerte(c) {
 		case "ù":
 		case "Ù":
 			return true;
+		default:
 	}
 	return false;
 }
@@ -701,6 +718,7 @@ function esConsonante(c) {
 			case "ü":
 			case "Ü":
 				return false;
+			default:
 		}
 
 		return true;
