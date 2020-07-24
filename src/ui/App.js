@@ -11,6 +11,10 @@ export default class App extends PureComponent {
 		return (
 			<div>
 				<h1>Spanish-Jeringoza Translator</h1>
+				<h2>
+					<a href="https://github.com/rodri042/jeringozo">Fork me on GitHub!</a>
+				</h2>
+
 				<div>
 					<textarea
 						rows={1}

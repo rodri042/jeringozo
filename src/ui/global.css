@@ -22,7 +22,16 @@ samp {
 
 h1 {
 	text-align: center;
+	color: #297cf2;
+}
+
+h2 {
+	text-align: center;
 	margin-bottom: 30px;
+}
+
+a {
+	color: #a5b6db;
 }
 
 textarea {
