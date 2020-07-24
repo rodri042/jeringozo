@@ -21,7 +21,7 @@ export default class App extends PureComponent {
 						}}
 					/>
 				</div>
-				<div>{JeringozaTranslator.toJeringoza(input)}</div>
+				<pre>{JeringozaTranslator.toJeringoza(input)}</pre>
 			</div>
 		);
 	}

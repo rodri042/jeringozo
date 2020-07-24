@@ -2,26 +2,33 @@ import silabajs from "./lib/silabajs";
 import _ from "lodash";
 
 const CONSONANTS = /[bcdfghjklmnñpqrstvwxyz]/gim;
+const NEWLINE = /[\r\n]/;
 
 export default {
 	toJeringoza(spanish) {
-		const words = spanish.split(" ");
+		const lines = spanish.split(NEWLINE);
 
-		return _.chain(words)
-			.map((word) => {
-				const syllables = silabajs
-					.getSilabas(word)
-					.silabas.map((it) => it.silaba);
+		return _.chain(lines)
+			.map((line) => {
+				const words = line.split(" ");
 
-				return syllables
-					.map((it) => {
-						const vowels = it.replace(CONSONANTS, "");
-						const vowel = _.last(vowels);
-						return vowel ? `${it}p${vowel}` : it;
+				return words
+					.map((word) => {
+						const syllables = silabajs
+							.getSilabas(word)
+							.silabas.map((it) => it.silaba);
+
+						return syllables
+							.map((it) => {
+								const vowels = it.replace(CONSONANTS, "");
+								const vowel = _.last(vowels);
+								return vowel ? `${it}p${vowel}` : it;
+							})
+							.join("");
 					})
-					.join("");
+					.join(" ");
 			})
-			.join(" ")
+			.join("\n")
 			.deburr()
 			.value();
 	},
