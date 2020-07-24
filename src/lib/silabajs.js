@@ -1,3 +1,5 @@
+// https://github.com/nicofrem/silabajs
+
 // Objeto con metodo que se utilizará globalmente
 var silabaJS = {
 	getSilabas: getSilabas
@@ -628,8 +630,8 @@ function diptongoTriptongo() {
 			continue;
 		}
 
-		// Diptongo Homogeneo (VD - VD) : ((a|e|o)(i|u))
-		expresion = /((a|e|o)(i|u))/g;
+		// Diptongo Homogeneo (VD - VD) : ((i|u)(i|u))
+		expresion = /((i|u)(i|u))/g;
 		if (silaba.silabas[i].silaba.match(expresion)) {
 			silaba.diptongo.push({
 				tipo: "Diptongo Homogéneos",
