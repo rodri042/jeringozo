@@ -7,6 +7,7 @@ export default class App extends PureComponent {
 
 	render() {
 		const { input } = this.state;
+		const output = this._translate(input);
 
 		return (
 			<div>
@@ -17,16 +18,28 @@ export default class App extends PureComponent {
 
 				<div>
 					<textarea
+						className="input"
 						rows={1}
 						cols={10}
 						autoFocus
 						onChange={(e) => {
-							this.setState({ input: e.target.value });
+							const text = e.target.value;
+							this.setState({ input: text });
+							window.navigator.clipboard.writeText(this._translate(text));
 						}}
 					/>
 				</div>
-				<pre>{JeringozaTranslator.toJeringoza(input)}</pre>
+				<pre className="output">{output}</pre>
+				{output && (
+					<div className="message">
+						(The translation has been copied to clipboard)
+					</div>
+				)}
 			</div>
 		);
+	}
+
+	_translate(text) {
+		return JeringozaTranslator.toJeringoza(text);
 	}
 }

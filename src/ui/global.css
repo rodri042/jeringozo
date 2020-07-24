@@ -5,6 +5,7 @@ body {
 
 	background-color: #000000;
 	color: white;
+	word-break: break-word;
 }
 
 html,
@@ -30,16 +31,22 @@ a {
 	color: #a5b6db;
 }
 
-textarea {
+.input {
 	width: stretch;
 	min-height: 100px;
 	margin-bottom: 10px;
 	resize: none;
 }
 
-pre {
+.output {
 	white-space: pre-wrap;
 	background-color: #262626;
 	border-radius: 8px;
 	padding: 0px 10px;
+}
+
+.message {
+	font-size: x-small;
+	color: gray;
+	text-align: center;
 }
