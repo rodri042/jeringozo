@@ -22,3 +22,9 @@ npm start
 ```bash
 npm run build
 ```
+
+## Deploy
+
+```bash
+./scripts/deploy.sh <GITHUB_TOKEN>
+```
