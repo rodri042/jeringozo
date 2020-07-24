@@ -1,7 +1,8 @@
 import silabajs from "./lib/silabajs";
 import _ from "lodash";
 
-const CONSONANTS = /[bcdfghjklmnñpqrstvwxyz]/gim;
+const NON_LETTERS = /[^a-z]/gi;
+const NON_VOWELS = /[^aeiou]/gi;
 const NEWLINE = /[\r\n]/;
 
 export default {
@@ -19,10 +20,17 @@ export default {
 							.silabas.map((it) => it.silaba);
 
 						return syllables
-							.map((it) => {
-								const vowels = it.replace(CONSONANTS, "");
+							.map((syllable) => {
+								const letters = syllable.replace(NON_LETTERS, "");
+								const vowels = letters.replace(NON_VOWELS, "");
 								const vowel = _.last(vowels);
-								return vowel ? `${it}p${vowel}` : it;
+								const occurrences = _.sumBy(letters, (c) => c === vowel);
+
+								let count = 0;
+								return syllable.replace(new RegExp(letters, "g"), (match) => {
+									count++;
+									return count === occurrences ? `${match}p${vowel}` : match;
+								});
 							})
 							.join("");
 					})
