@@ -727,4 +727,4 @@ function esConsonante(c) {
 	return false;
 }
 
-module.exports = silabaJS;
+export default silabaJS;
