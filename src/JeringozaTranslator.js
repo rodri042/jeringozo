@@ -20,7 +20,8 @@ export default {
 							.silabas.map((it) => it.silaba);
 
 						return syllables
-							.map((syllable) => {
+							.map((it) => {
+								const syllable = _.deburr(it);
 								const letters = syllable.replace(NON_LETTERS, "");
 								const vowels = letters.replace(NON_VOWELS, "");
 								const vowel = _.last(vowels);
