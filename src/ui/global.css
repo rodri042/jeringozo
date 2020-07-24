@@ -1,14 +1,10 @@
-html {
-	height: 100%;
-}
-
 body {
-	min-height: 100%;
 	margin: 0;
+	padding: 10px 10px 10px 10px;
+	line-height: 40px;
 
 	background-color: #000000;
 	color: white;
-	overflow: hidden;
 }
 
 html,
@@ -35,8 +31,15 @@ a {
 }
 
 textarea {
-	width: 100%;
+	width: stretch;
 	min-height: 100px;
 	margin-bottom: 10px;
 	resize: none;
+}
+
+pre {
+	white-space: pre-wrap;
+	background-color: #262626;
+	border-radius: 8px;
+	padding: 0px 10px;
 }
