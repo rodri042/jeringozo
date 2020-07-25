@@ -40,7 +40,5 @@ export default {
 			.join("\n")
 			.deburr()
 			.value();
-	},
-
-	toSpanish(jeringoza) {}
+	}
 };

@@ -26,3 +26,4 @@ yarn-error.log*
 *.sublime-workspace
 
 # app
+extension/bundle.js

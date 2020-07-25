@@ -17,10 +17,16 @@ npm install
 npm start
 ```
 
-## Build
+## Build site
 
 ```bash
 npm run build
+```
+
+## Build extension
+
+```bash
+./scripts/build-extension.sh
 ```
 
 ## Deploy
