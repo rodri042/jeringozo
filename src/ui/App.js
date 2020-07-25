@@ -25,7 +25,8 @@ export default class App extends PureComponent {
 						onChange={(e) => {
 							const text = e.target.value;
 							this.setState({ input: text });
-							window.navigator.clipboard.writeText(this._translate(text));
+							const newOutput = this._translate(text);
+							if (newOutput) window.navigator.clipboard.writeText(newOutput);
 						}}
 					/>
 				</div>
