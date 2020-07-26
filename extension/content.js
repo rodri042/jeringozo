@@ -9,12 +9,10 @@ chrome.runtime.sendMessage({ action: "request-status" }, updateStatus);
 chrome.runtime.onMessage.addListener(updateStatus);
 
 const load = () => {
-	document
-		.querySelectorAll("input, [contenteditable=true]")
-		.forEach((input) => {
-			input.removeEventListener("keypress", inputListener);
-			input.addEventListener("keypress", inputListener);
-		});
+	document.querySelectorAll("input, textarea").forEach((input) => {
+		input.removeEventListener("keypress", inputListener);
+		input.addEventListener("keypress", inputListener);
+	});
 
 	document.querySelectorAll("[contenteditable=true]").forEach((div) => {
 		div.removeEventListener("keypress", editableListener);
